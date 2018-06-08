@@ -1,0 +1,90 @@
+CREATE TABLE Horario (
+    id_horario int NOT NULL AUTO_INCREMENT,
+    inicio time NOT NULL,
+    termino time NOT NULL,
+    PRIMARY KEY (id_horario)
+);
+
+CREATE TABLE Empresa (
+    id_empresa int NOT NULL AUTO_INCREMENT,
+    id_horario int NOT NULL,
+    nombre varchar(30) NOT NULL,
+    password varchar(20) NOT NULL,
+    PRIMARY KEY (id_empresa),
+    FOREIGN KEY (id_horario) REFERENCES Horario(id_horario)
+);
+
+CREATE TABLE Imagen (
+    id_imagen int NOT NULL,
+    imagen longblob NOT NULL,
+    PRIMARY KEY (id_imagen)
+);
+
+CREATE TABLE Trabajador (
+    email_trabajador varchar(30) NOT NULL,
+    nombre varchar(50) NOT NULL,
+	password_trabajador varchar(20) NOT NULL,
+    PRIMARY KEY (email_trabajador)
+);
+
+CREATE TABLE Trabajador_Imagen (
+    id_trabajador_imagen int NOT NULL AUTO_INCREMENT,
+    id_imagen int NOT NULL,
+    email_trabajador varchar(30) NOT NULL,
+    PRIMARY KEY (id_trabajador_imagen),
+    FOREIGN KEY (id_imagen) REFERENCES Imagen(id_imagen),
+    FOREIGN KEY (email_trabajador) REFERENCES Trabajador(email_trabajador)
+);
+
+CREATE TABLE Reconocimiento (
+    id_reconocimiento int NOT NULL AUTO_INCREMENT,
+    archivo longblob NOT NULL,
+    PRIMARY KEY (id_reconocimiento)
+);
+
+CREATE TABLE Reconocimiento_Empresa (
+    id_reconocimiento_empresa int NOT NULL AUTO_INCREMENT,
+    id_reconocimiento int NOT NULL,
+    id_empresa int NOT NULL,
+    PRIMARY KEY (id_reconocimiento_empresa),
+    FOREIGN KEY (id_reconocimiento) REFERENCES Reconocimiento(id_reconocimiento),
+    FOREIGN KEY (id_empresa) REFERENCES Empresa(id_empresa)
+);
+
+CREATE TABLE Trabajador_Empresa (
+    id_trabajador_empresa int NOT NULL AUTO_INCREMENT,
+    id_empresa int NOT NULL,
+    email_trabajador varchar(30) NOT NULL,
+    PRIMARY KEY (id_trabajador_empresa),
+    FOREIGN KEY (id_empresa) REFERENCES Empresa(id_empresa),
+    FOREIGN KEY (email_trabajador) REFERENCES Trabajador(email_trabajador)
+);
+
+CREATE TABLE Validacion(
+	id_validacion int NOT NULL AUTO_INCREMENT,
+	imagen_valida boolean,
+	PRIMARY KEY(id_validacion)
+);
+
+CREATE TABLE Asistencia (
+    id_asistencia int NOT NULL AUTO_INCREMENT,
+    id_validacion int NOT NULL,
+    imagen_asistencia blob NOT NULL,
+    hora time NOT NULL,
+	latitud float NOT NULL,
+	longitud float NOT NULL,
+    entrada_salida varchar(7) NOT NULL,
+    PRIMARY KEY(id_asistencia),
+    FOREIGN KEY(id_validacion) REFERENCES Validacion(id_validacion)
+);
+
+CREATE TABLE Trabajador_Asistencia (
+    id_trabajador_asistencia int NOT NULL AUTO_INCREMENT,
+    id_asistencia int NOT NULL,
+    email_trabajador varchar(30) NOT NULL,
+    dia date NOT NULL,
+    PRIMARY KEY(id_trabajador_asistencia),
+    FOREIGN KEY (id_asistencia) REFERENCES Asistencia(id_asistencia),
+    FOREIGN KEY (email_trabajador) REFERENCES 	    
+	Trabajador(email_trabajador)
+);
