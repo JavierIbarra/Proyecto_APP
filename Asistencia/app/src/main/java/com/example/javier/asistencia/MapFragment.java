@@ -76,6 +76,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,Response
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        SharedPreferences preferences = getContext().getSharedPreferences("Login", Context.MODE_PRIVATE);
+        ID_EMPRESA = preferences.getString("id_empresa","");
+
+        listaUbicaciones = new ArrayList<>();
+        request = Volley.newRequestQueue(getContext());
+        cargarWebService();
         vista = inflater.inflate(R.layout.fragment_map, container, false);
 
         return vista;
